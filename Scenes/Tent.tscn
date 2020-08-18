@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Tent.gd" type="Script" id=1]
+[ext_resource path="res://Textures/Tent.png" type="Texture" id=2]
+
+[node name="Tent" type="Sprite" groups=[
+"Tent",
+]]
+z_index = -1
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
