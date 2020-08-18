@@ -32,13 +32,13 @@ func instance_node_at_location(node: Object, parent: Object, location: Vector2):
 func _on_Time_pass_timer_timeout() -> void:
 	if time_minutes < 59:
 		time_minutes += 1
+		
+		if Global.time_cycle_color != null:
+			Global.time_cycle_color.update_colors()
 	else:
 		time_hours += 1
 		raw_time_hours += 1
 		time_minutes = 0
-		
-		if Global.time_cycle_color != null:
-			Global.time_cycle_color.update_colors()
 	
 	if time_hours > 12:
 		time_hours = 1

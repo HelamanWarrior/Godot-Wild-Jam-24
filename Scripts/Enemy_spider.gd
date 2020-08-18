@@ -29,7 +29,7 @@ func movement() -> void:
 			velocity.x = -1
 			sprite.flip_h = true
 			
-			if global_position.x < start_location.x:
+			if global_position < start_location.x:
 				current_location = locations.START
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Textures/Enemy_spider_walk.png" type="Texture" id=2]
@@ -6,19 +6,32 @@
 [ext_resource path="res://Animations/Enemy_spider_idle.tres" type="Animation" id=4]
 [ext_resource path="res://Scripts/Enemy_spider.gd" type="Script" id=5]
 
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float whitening;
+
+void fragment() {
+    vec4 texture_color = texture(TEXTURE, UV);
+    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening), texture_color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/whitening = 0.0
+
 [node name="Enemy_spider" instance=ExtResource( 1 )]
-position = Vector2( 0, 1.52959e+06 )
 script = ExtResource( 5 )
 
 [node name="Sprite" parent="Sprite_pivot" index="0"]
+material = SubResource( 2 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="1"]
-visible = false
 position = Vector2( -1, -11 )
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-visible = false
 position = Vector2( -1, -11 )
 
 [node name="AnimationPlayer" parent="." index="5"]
@@ -27,3 +40,6 @@ anims/Walk = ExtResource( 3 )
 
 [node name="End_location_point" type="Position2D" parent="." index="7"]
 position = Vector2( 0, -1369.38 )
+
+[node name="Light2D" parent="." index="8"]
+position = Vector2( 0, -12 )

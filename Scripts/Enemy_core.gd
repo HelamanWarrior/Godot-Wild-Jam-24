@@ -21,6 +21,7 @@ onready var knockback_recovery: Timer = $Knockback_recovery
 onready var sprite: Sprite = $Sprite_pivot/Sprite
 onready var hit_flash_timer: Timer = $Hit_flash_timer
 onready var animation_player: AnimationPlayer = $AnimationPlayer
+onready var light: Light2D = $Light2D
 
 enum directions {
 	LEFT,
@@ -85,7 +86,7 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		
 		current_health -= area.damage
 		
-		sprite.modulate = Color(10,10,10,10)
+		sprite.material.set_shader_param("whitening", 1)
 		hit_flash_timer.start()
 		
 		is_knocked_back = true
@@ -94,6 +95,6 @@ func _on_Knockback_recovery_timeout() -> void:
 	is_knocked_back = false
 
 func _on_Hit_flash_timer_timeout() -> void:
-	sprite.modulate = Color(1,1,1,1)
+	sprite.material.set_shader_param("whitening", 0)
 
 

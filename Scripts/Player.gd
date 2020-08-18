@@ -26,6 +26,8 @@ enum directions {
 	RIGHT
 }
 
+var current_role: String = "father"
+
 onready var sprite_pivot: Node2D = $Sprite_pivot
 onready var sprite: Sprite = $Sprite_pivot/Sprite
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -74,7 +76,7 @@ func get_input(delta: float) -> void:
 	
 	if velocity.x != 0:
 		if not is_attacking:
-			animation_player.play("Player_run")
+			animation_player.play(current_role + "_run")
 		sprite.rotation_degrees = lerp(sprite.rotation_degrees, velocity.x * move_angle, delta * 8)
 		
 		if velocity.x == 1:
@@ -84,15 +86,15 @@ func get_input(delta: float) -> void:
 			sprite.flip_h = true
 			direction = directions.LEFT
 	else:
-		if animation_player.current_animation != "Player_attack":
-			animation_player.play("Player_idle")
+		if animation_player.current_animation != "father_attack":
+			animation_player.play(current_role + "_idle")
 		sprite.rotation_degrees = lerp(sprite.rotation_degrees, 0, delta * 8)
 	
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity.y = -jump_speed
 	
-	if Input.is_action_just_pressed("attack"):
-		animation_player.play("Player_attack")
+	if Input.is_action_just_pressed("attack") and current_role == "father":
+		animation_player.play("father_attack")
 		is_attacking = true
 		
 		if direction == directions.RIGHT:
@@ -116,15 +118,14 @@ func create_damage_hitbox() -> void:
 		attack_hitbox_instance.damage = damage
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
-	if anim_name == "Player_attack":
-		animation_player.play("Player_idle")
+	if anim_name == "father_attack":
 		is_attacking = false
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Enemy") and not is_knocked_back:
 		current_health -= 1
 		
-		modulate = Color(10,10,10,10)
+		sprite.material.set_shader_param("whitening", 1)
 		hit_flash_timer.start()
 		
 		knockback_recovery.start()
@@ -144,4 +145,4 @@ func _on_Knockback_recovery_timeout() -> void:
 	is_knocked_back = false
 	
 func _on_Hit_flash_timer_timeout() -> void:
-	modulate = Color(1,1,1,1)
+	sprite.material.set_shader_param("whitening", 0)

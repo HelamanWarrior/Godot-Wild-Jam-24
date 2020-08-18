@@ -1,4 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Shaders/White_texture.tres" type="Material" id=1]
+[ext_resource path="res://Textures/Light.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 10 )
@@ -13,10 +16,12 @@ collision_mask = 2
 [node name="Sprite_pivot" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Sprite_pivot"]
+material = ExtResource( 1 )
 position = Vector2( 0, -11 )
 hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, -11 )
 shape = SubResource( 1 )
 
@@ -25,6 +30,7 @@ shape = SubResource( 1 )
 ]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2( 0, -11 )
 shape = SubResource( 2 )
 
@@ -38,6 +44,10 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+mode = 2
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Knockback_recovery" to="." method="_on_Knockback_recovery_timeout"]
 [connection signal="timeout" from="Hit_flash_timer" to="." method="_on_Hit_flash_timer_timeout"]
