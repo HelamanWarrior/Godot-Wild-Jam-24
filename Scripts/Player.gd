@@ -15,7 +15,11 @@ var just_hit_floor: bool = false
 var is_attacking: bool = false
 var is_knocked_back: bool = false
 
+var can_dash: bool = true
+var is_dashing: bool = false
+
 const move_angle: int = 15
+const dash_speed: int = 200
 
 var attack_hitbox: Object = load("res://Scenes/Player_attack_hitbox.tscn")
 
@@ -33,24 +37,35 @@ onready var sprite: Sprite = $Sprite_pivot/Sprite
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var hit_flash_timer: Timer = $Hit_flash_timer
 onready var knockback_recovery: Timer = $Knockback_recovery
+onready var hitbox_collision: CollisionShape2D = $Hitbox/CollisionShape2D
+onready var dash_timer: Timer = $Dash_timer
+onready var dash_reset_timer: Timer = $Dash_reset_timer
 
 func _ready() -> void:
 	Global.player = self
 	
+	current_role = Global.player_role
+	
 	if current_role == "mother":
 		jump_speed = 300
+	elif current_role == "child":
+		speed = 175
 	
 func _exit_tree() -> void:
 	Global.player = null
 
 func _process(delta: float) -> void:
 	if not is_knocked_back:
-		get_input(delta)
+		if not is_dashing:
+			get_input(delta)
 		apply_velocity_movement()
 	else:
 		apply_knocked_back_velocity(delta)
 	apply_gravity(delta)
 	camera_offset_in_direction(delta)
+	
+	if current_role == "child":
+		check_dash(delta)
 
 func apply_velocity_movement() -> void:
 	var applied_velocity := Vector2(velocity.x * speed, velocity.y)
@@ -60,6 +75,21 @@ func apply_knocked_back_velocity(delta: float) -> void:
 	var applied_velocity := Vector2(velocity.x * knockback_speed, velocity.y)
 	move_and_slide(applied_velocity, Vector2.UP)
 	velocity.x = lerp(velocity.x, 0, delta * 4)
+
+func check_dash(delta: float):
+	if can_dash and Input.is_action_just_pressed("attack"):
+		if direction == directions.RIGHT:
+			velocity.x = 16
+			
+		elif direction == directions.LEFT:
+			velocity.x = -16
+		
+		hitbox_collision.disabled = true
+		dash_timer.start()
+		dash_reset_timer.start()
+		is_dashing = true
+		
+		can_dash = false
 
 func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
@@ -125,7 +155,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		is_attacking = false
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Enemy") and not is_knocked_back:
+	if area.is_in_group("Enemy") and not is_knocked_back and not area.get_parent().is_knocked_back:
 		current_health -= 1
 		
 		sprite.material.set_shader_param("whitening", 1)
@@ -153,3 +183,10 @@ func _on_Knockback_recovery_timeout() -> void:
 	
 func _on_Hit_flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("whitening", 0)
+
+func _on_Dash_reset_timer_timeout() -> void:
+	can_dash = true
+	hitbox_collision.disabled = false
+
+func _on_Dashtimer_timeout() -> void:
+	is_dashing = false

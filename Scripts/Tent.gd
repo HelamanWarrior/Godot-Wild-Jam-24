@@ -31,6 +31,10 @@ func _process(delta: float) -> void:
 				set_current_tent(true)
 		else:
 			modulate.a = lerp(modulate.a, 0.25, delta * 4)
+	else:
+		if Global.instance_player_from_tent:
+			Global.instance_node_at_location(player, get_tree().current_scene, global_position)
+			Global.instance_player_from_tent = false
 	
 	if Global.player != null and Global.player.current_role == "mother":
 		if global_position.distance_to(Global.player.global_position) > 50:

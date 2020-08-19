@@ -31,5 +31,3 @@ func movement() -> void:
 			
 			if global_position.x < start_location.x:
 				current_location = locations.START
-
-

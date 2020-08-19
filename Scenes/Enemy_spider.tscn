@@ -43,3 +43,8 @@ position = Vector2( 0, -1369.38 )
 
 [node name="Light2D" parent="." index="8"]
 position = Vector2( 0, -12 )
+
+[node name="VisibilityNotifier2D" parent="." index="9"]
+visible = false
+position = Vector2( -1, -10 )
+scale = Vector2( 1.7, 0.9 )

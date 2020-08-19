@@ -32,6 +32,7 @@ const gravity_speed = 5
 
 func _ready() -> void:
 	knockback_recovery.wait_time = knockback_recovery_time
+	Global.freeze_node(self, true)
 
 func _process(delta: float) -> void:
 	if velocity.x == 1:
@@ -97,4 +98,9 @@ func _on_Knockback_recovery_timeout() -> void:
 func _on_Hit_flash_timer_timeout() -> void:
 	sprite.material.set_shader_param("whitening", 0)
 
+func _on_VisibilityNotifier2D_screen_entered() -> void:
+	Global.freeze_node(self, false)
+
+func _on_VisibilityNotifier2D_screen_exited() -> void:
+	Global.freeze_node(self, true)
 

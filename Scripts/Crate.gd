@@ -10,6 +10,7 @@ const gravity_speed: int = 10
 
 onready var check_interact: Timer = $Check_interact
 onready var sprite: Sprite = $Sprite
+onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
 	Global.freeze_node(self, true)
@@ -23,6 +24,7 @@ func _process(delta: float) -> void:
 		is_player_colliding = false
 	
 	if follow_player and Global.player != null:
+		collision_shape.disabled = true
 		global_position = Vector2(Global.player.global_position.x, Global.player.global_position.y - 15)
 		rotation_degrees = Global.player.sprite.rotation_degrees
 		
@@ -30,6 +32,7 @@ func _process(delta: float) -> void:
 			if can_interact:
 				follow_player = false
 	else:
+		collision_shape.disabled = false
 		rotation_degrees = lerp(rotation_degrees, 0, delta * 8)
 		
 		if not is_on_floor():
@@ -56,4 +59,3 @@ func _on_VisibilityNotifier2D_screen_exited() -> void:
 
 func _on_Check_interact_timeout() -> void:
 	can_interact = true
-	print("can interactive")
