@@ -7,7 +7,7 @@
 [node name="Tent" type="Sprite" groups=[
 "Tent",
 ]]
-z_index = -1
+z_index = -2
 texture = ExtResource( 2 )
 script = ExtResource( 1 )
 

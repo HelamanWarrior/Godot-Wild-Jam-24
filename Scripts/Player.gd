@@ -36,7 +36,10 @@ onready var knockback_recovery: Timer = $Knockback_recovery
 
 func _ready() -> void:
 	Global.player = self
-
+	
+	if current_role == "mother":
+		jump_speed = 300
+	
 func _exit_tree() -> void:
 	Global.player = null
 
@@ -131,6 +134,10 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		knockback_recovery.start()
 		
 		is_knocked_back = true
+		
+		if current_health <= 0:
+			Global.is_game_over = true
+			queue_free()
 		
 		if global_position.x > area.global_position.x:
 			velocity.x = 1

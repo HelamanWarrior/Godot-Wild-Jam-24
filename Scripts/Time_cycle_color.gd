@@ -10,7 +10,7 @@ func _exit_tree() -> void:
 	Global.time_cycle_color = null
 
 func update_colors() -> void:
-	color = find_color(float(Global.raw_time_hours) / 22)
+	color = find_color(float(Global.raw_time_minutes) / 1320)
 
 func find_color(t):
 	for i in range(1, gradient_time_cycle.get_point_count()):

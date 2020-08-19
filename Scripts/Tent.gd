@@ -20,20 +20,19 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if not current_tent:
-		if is_player_colliding:
+		if is_player_colliding and Global.player != null:
 			modulate.a = lerp(modulate.a, 0.75, delta * 4)
 			
-			if Input.is_action_just_pressed("attack"):
+			if Input.is_action_just_pressed("interact") and Global.player.current_role == "mother":
 				for child in get_tree().current_scene.get_children():
 					if child.is_in_group("Tent"):
 						child.set_current_tent(false)
 				
-				print("I am now the current tent")
 				set_current_tent(true)
 		else:
 			modulate.a = lerp(modulate.a, 0.25, delta * 4)
 	
-	if Global.player != null:
+	if Global.player != null and Global.player.current_role == "mother":
 		if global_position.distance_to(Global.player.global_position) > 50:
 			is_player_colliding = false
 			

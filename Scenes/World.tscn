@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Textures/Dirt.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Tent.tscn" type="PackedScene" id=2]
@@ -19,15 +19,22 @@
 [ext_resource path="res://Scripts/Time_cycle_color.gd" type="Script" id=17]
 [ext_resource path="res://Textures/Player_2.png" type="Texture" id=18]
 [ext_resource path="res://Textures/Background_color.png" type="Texture" id=19]
+[ext_resource path="res://Scripts/Health_display.gd" type="Script" id=20]
+[ext_resource path="res://Textures/Health.png" type="Texture" id=21]
+[ext_resource path="res://UI/Font_large.tres" type="DynamicFont" id=22]
+[ext_resource path="res://Scripts/Game_over.gd" type="Script" id=23]
+[ext_resource path="res://UI/Font_small.tres" type="DynamicFont" id=24]
+[ext_resource path="res://Scenes/Crate.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Scripts/Role_select.gd" type="Script" id=26]
 
-[sub_resource type="Gradient" id=10]
-offsets = PoolRealArray( 0.212928, 0.463878, 0.547529, 0.718631, 0.984791 )
-colors = PoolColorArray( 0.0509804, 0.0509804, 0.137255, 1, 0.912173, 0.912173, 0.912173, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.0509804, 0.0509804, 0.137255, 1 )
-
-[sub_resource type="ConvexPolygonShape2D" id=1]
-points = PoolVector2Array( 0, 16, 16, 16, 16, 0, 0, 0 )
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.0152091, 0.285171, 0.410646, 0.741445, 0.984791 )
+colors = PoolColorArray( 0.163452, 0.163452, 0.203125, 1, 0.912173, 0.912173, 0.912173, 1, 1, 1, 1, 1, 0.234314, 0.234314, 0.270262, 1, 0.164706, 0.164706, 0.203922, 1 )
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, 16, 16, 16, 16, 0, 0, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
@@ -48,7 +55,7 @@ points = PoolVector2Array( 32, 16, 0, 16, 0, 0, 32, 0 )
 [sub_resource type="ConvexPolygonShape2D" id=9]
 points = PoolVector2Array( 32, 16, 0, 16, 0, 0, 32, 0 )
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=10]
 0/name = "Dirt.png 0"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
@@ -59,14 +66,14 @@ points = PoolVector2Array( 32, 16, 0, 16, 0, 0, 32, 0 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 1 )
+0/shape = SubResource( 2 )
 0/shape_one_way = false
 0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 1 ),
+"shape": SubResource( 2 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
@@ -80,14 +87,14 @@ points = PoolVector2Array( 32, 16, 0, 16, 0, 0, 32, 0 )
 1/navigation_offset = Vector2( 0, 0 )
 1/shape_offset = Vector2( 0, 0 )
 1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape = SubResource( 2 )
+1/shape = SubResource( 3 )
 1/shape_one_way = false
 1/shape_one_way_margin = 1.0
 1/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 2 ),
+"shape": SubResource( 3 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 1/z_index = 0
@@ -222,7 +229,7 @@ points = PoolVector2Array( 32, 16, 0, 16, 0, 0, 32, 0 )
 
 [node name="Time_cycle_color" type="CanvasModulate" parent="."]
 script = ExtResource( 17 )
-gradient_time_cycle = SubResource( 10 )
+gradient_time_cycle = SubResource( 1 )
 
 [node name="Camera" type="Camera2D" parent="."]
 offset = Vector2( 30, -30 )
@@ -231,7 +238,7 @@ smoothing_enabled = true
 script = ExtResource( 8 )
 
 [node name="Background_color" type="Sprite" parent="Camera"]
-z_index = -5
+z_index = -10
 texture = ExtResource( 19 )
 centered = false
 offset = Vector2( -320, -180 )
@@ -240,12 +247,12 @@ region_rect = Rect2( 0, 0, 800, 400 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = 1
-tile_set = SubResource( 3 )
+tile_set = SubResource( 10 )
 cell_size = Vector2( 15, 15 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 1027
+collision_mask = 1027
 format = 1
-tile_data = PoolIntArray( 524314, 2, 0, 524316, 3, 0, 524317, 3, 0, 524318, 3, 0, 524319, 3, 0, 524320, 5, 0, 524321, 3, 0, 524322, 3, 0, 524323, 7, 0, 524325, 3, 0, 524326, 2, 0, 589824, 2, 0, 589826, 7, 0, 589828, 3, 0, 589829, 3, 0, 589830, 3, 0, 589831, 3, 0, 589832, 3, 0, 589833, 3, 0, 589834, 3, 0, 589835, 3, 0, 589836, 3, 0, 589837, 7, 0, 589839, 3, 0, 589840, 3, 0, 589841, 2, 0, 589843, 3, 0, 589844, 3, 0, 589845, 3, 0, 589846, 3, 0, 589847, 3, 0, 589848, 3, 0, 589849, 3, 0, 589852, 0, 0, 589853, 0, 0, 589854, 4, 0, 589855, 0, 0, 589857, 1, 0, 589859, 0, 0, 589860, 0, 0, 589861, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 1, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 4, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 6, 0, 655383, 0, 0, 655384, 0, 0, 655385, 0, 0, 655386, 1, 0, 655388, 0, 0, 655389, 0, 0, 655391, 0, 0, 655392, 0, 0, 655395, 0, 0, 655396, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 720920, 0, 0, 720921, 0, 0, 720924, 0, 0, 720925, 0, 0, 720926, 0, 0, 720927, 0, 0, 720928, 0, 0, 720929, 0, 0, 720930, 0, 0, 720931, 0, 0, 720932, 6, 0, 720934, 0, 0, 720935, 0, 0, 720936, 0, 0 )
+tile_data = PoolIntArray( 524314, 2, 0, 524316, 3, 0, 524317, 3, 0, 524318, 3, 0, 524319, 3, 0, 524320, 5, 0, 524321, 3, 0, 524322, 3, 0, 524323, 7, 0, 524325, 3, 0, 524326, 2, 0, 589824, 2, 0, 589826, 7, 0, 589828, 3, 0, 589829, 3, 0, 589830, 3, 0, 589831, 3, 0, 589832, 3, 0, 589833, 3, 0, 589834, 3, 0, 589835, 3, 0, 589836, 3, 0, 589837, 7, 0, 589839, 3, 0, 589840, 3, 0, 589841, 2, 0, 589843, 3, 0, 589844, 3, 0, 589845, 3, 0, 589846, 3, 0, 589847, 3, 0, 589848, 3, 0, 589849, 3, 0, 589852, 0, 0, 589853, 0, 0, 589854, 4, 0, 589855, 0, 0, 589857, 1, 0, 589859, 0, 0, 589860, 0, 0, 589861, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 1, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 4, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 6, 0, 655383, 0, 0, 655384, 0, 0, 655385, 0, 0, 655386, 1, 0, 655388, 0, 0, 655389, 0, 0, 655391, 0, 0, 655392, 0, 0, 655395, 0, 0, 655396, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720902, 0, 0, 720903, 4, 0, 720904, 0, 0, 720905, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 720920, 0, 0, 720921, 0, 0, 720924, 0, 0, 720925, 0, 0, 720926, 1, 0, 720928, 0, 0, 720929, 0, 0, 720930, 0, 0, 720931, 0, 0, 720932, 6, 0, 720934, 0, 0, 720935, 0, 0, 720936, 0, 0, 786432, 0, 0, 786433, 6, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 6, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 1, 0, 786457, 0, 0, 786458, 0, 0, 786459, 0, 0, 786460, 0, 0, 786461, 0, 0, 786464, 0, 0, 786465, 0, 0, 786466, 0, 0, 786467, 0, 0, 786468, 0, 0, 786469, 0, 0, 786470, 0, 0, 786471, 0, 0, 786472, 0, 0 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -257,12 +264,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Health_display" type="Sprite" parent="CanvasLayer/Control"]
+position = Vector2( 5, 4 )
+texture = ExtResource( 21 )
+centered = false
+hframes = 4
+frame = 3
+script = ExtResource( 20 )
+
 [node name="Time" type="Label" parent="CanvasLayer/Control"]
+anchor_left = 1.0
 anchor_right = 1.0
+margin_left = -320.0
+margin_right = -6.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 4 )
 text = "12:00pm"
-align = 1
+align = 2
 valign = 1
 script = ExtResource( 5 )
 __meta__ = {
@@ -271,9 +289,11 @@ __meta__ = {
 }
 
 [node name="Role_select" type="Control" parent="CanvasLayer/Control"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 26 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -348,6 +368,47 @@ text = "Child"
 align = 1
 valign = 1
 
+[node name="Game_over" type="Control" parent="CanvasLayer/Control"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/Game_over"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Game Over" type="Label" parent="CanvasLayer/Control/Game_over"]
+anchor_right = 1.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 22 )
+text = "Game Over"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Restart_button" type="Button" parent="CanvasLayer/Control/Game_over"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -39.0
+margin_top = 6.0
+margin_right = 39.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 24 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tent" parent="." instance=ExtResource( 2 )]
 position = Vector2( 145, 105 )
 current_tent = true
@@ -360,3 +421,7 @@ position = Vector2( 266, 136 )
 idle_animation = ExtResource( 15 )
 walk_animation = ExtResource( 14 )
 end_location_x = 100
+
+[node name="Crate" parent="." instance=ExtResource( 25 )]
+position = Vector2( 469, 112 )
+[connection signal="pressed" from="CanvasLayer/Control/Game_over/Restart_button" to="CanvasLayer/Control/Game_over" method="_on_Restart_button_pressed"]

@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/Player_attack_hitbox.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7, 6 )
+extents = Vector2( 10, 6 )
 
 [node name="Player_attack_hitbox" type="Area2D" groups=[
 "Enemy_damager",
