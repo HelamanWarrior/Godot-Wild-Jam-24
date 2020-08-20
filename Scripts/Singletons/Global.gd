@@ -4,6 +4,8 @@ var player: KinematicBody2D = null
 var player_role: String = "father"
 var instance_player_from_tent: bool = false
 
+var total_coins: int = 0
+
 var camera: Camera2D = null
 var time_cycle_color: CanvasModulate = null
 var dialog_box: ColorRect = null

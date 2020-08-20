@@ -12,13 +12,15 @@ func _process(_delta: float) -> void:
 				Global.dialog_box.write_text_array(["Welcome to the Shop!", "This gun here costs $25"])
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Player") and area.get_parent().current_role == "father":
-		is_player_colliding = true
+	if area.is_in_group("Player"):
+		if area.get_parent().current_role == "father":
+			is_player_colliding = true
 
 func _on_Hitbox_area_exited(area: Area2D) -> void:
-	if area.is_in_group("Player") and area.get_parent().current_role == "father":
-		is_player_colliding = false
-		Global.dialog_box.hide()
+	if area.is_in_group("Player"):
+		if area.get_parent().current_role == "father":
+			is_player_colliding = false
+			Global.dialog_box.hide()
 
 func _on_VisibilityNotifier2D_screen_entered() -> void:
 	Global.freeze_node(self, false)
