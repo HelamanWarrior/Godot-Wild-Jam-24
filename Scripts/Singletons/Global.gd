@@ -67,6 +67,7 @@ func reset_time():
 	Global.time_minutes = 0
 	Global.raw_time_minutes = 0
 	Global.is_afternoon = false
+	Global.total_coins = 0
 
 func freeze_node(node, freeze):
 	node.set_process(!freeze)

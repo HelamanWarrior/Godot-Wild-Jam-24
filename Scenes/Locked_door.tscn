@@ -23,6 +23,7 @@ tracks/0/keys = {
 }
 
 [node name="Locked_door" type="StaticBody2D"]
+z_index = -1
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

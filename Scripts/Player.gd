@@ -55,6 +55,9 @@ func _exit_tree() -> void:
 	Global.player = null
 
 func _process(delta: float) -> void:
+	if Global.player != self:
+		Global.player = self
+	
 	if not is_knocked_back:
 		if not is_dashing:
 			get_input(delta)
@@ -79,10 +82,10 @@ func apply_knocked_back_velocity(delta: float) -> void:
 func check_dash(delta: float):
 	if can_dash and Input.is_action_just_pressed("attack"):
 		if direction == directions.RIGHT:
-			velocity.x = 16
+			velocity.x = 4
 			
 		elif direction == directions.LEFT:
-			velocity.x = -16
+			velocity.x = -4
 		
 		hitbox_collision.disabled = true
 		dash_timer.start()

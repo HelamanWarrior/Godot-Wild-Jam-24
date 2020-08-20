@@ -33,12 +33,15 @@ func _process(delta: float) -> void:
 						Global.dialog_box.write_text_array(["You shall not pass!", "This area is dangerous"])
 					
 					if player_colliding_left == true:
-						Global.dialog_box.write_text_array(["You got past me.", "You can go I guess.", "But beware this area is dangerous"])
+						Global.dialog_box.write_text_array(["I guess you can pass", "You can go", "But beware this area is dangerous"])
 						started_dialog = true
 	
 	if Global.dialog_box != null:
 		if started_dialog and Global.dialog_box.visible == false:
-			global_position.y = lerp(global_position.y, -1000, delta * 0.05)
+			modulate.a = lerp(modulate.a, 0, delta)
+			
+			if modulate.a <= 0.005:
+				queue_free()
 
 func _on_Hitbox_right_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
