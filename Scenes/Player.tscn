@@ -17,7 +17,7 @@ extents = Vector2( 6, 8 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 5, 6 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=10]
 resource_name = "child_idle"
 length = 0.1
 loop = true
@@ -70,7 +70,7 @@ tracks/3/keys = {
 "values": [ 0.75 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 resource_name = "child_run"
 length = 0.3
 loop = true
@@ -123,8 +123,7 @@ tracks/3/keys = {
 "values": [ 1.0 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "father_attack"
+[sub_resource type="Animation" id=12]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite_pivot/Sprite:texture")
@@ -188,9 +187,22 @@ tracks/4/keys = {
 "method": "create_damage_hitbox"
 } ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_swing_sound"
+} ]
+}
 
-[sub_resource type="Animation" id=4]
-resource_name = "father_idle"
+[sub_resource type="Animation" id=13]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -242,8 +254,7 @@ tracks/3/keys = {
 "values": [ 0.75 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "father_run"
+[sub_resource type="Animation" id=14]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -295,8 +306,7 @@ tracks/3/keys = {
 "values": [ 1.0 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "mother_idle"
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -348,8 +358,7 @@ tracks/3/keys = {
 "values": [ 0.75 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "mother_run"
+[sub_resource type="Animation" id=9]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -411,7 +420,9 @@ squishiness = 0.5
 [node name="Sprite" type="Sprite" parent="Sprite_pivot"]
 material = ExtResource( 7 )
 position = Vector2( 0, -10 )
-texture = ExtResource( 9 )
+texture = ExtResource( 4 )
+hframes = 5
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -430,14 +441,14 @@ position = Vector2( 0, -8 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 0.75
-anims/child_idle = SubResource( 8 )
-anims/child_run = SubResource( 9 )
-anims/father_attack = SubResource( 3 )
-anims/father_idle = SubResource( 4 )
-anims/father_run = SubResource( 5 )
-anims/mother_idle = SubResource( 6 )
-anims/mother_run = SubResource( 7 )
+playback_speed = 1.5
+anims/child_idle = SubResource( 10 )
+anims/child_run = SubResource( 11 )
+anims/father_attack = SubResource( 12 )
+anims/father_idle = SubResource( 13 )
+anims/father_run = SubResource( 14 )
+anims/mother_idle = SubResource( 8 )
+anims/mother_run = SubResource( 9 )
 
 [node name="Knockback_recovery" type="Timer" parent="."]
 wait_time = 0.5

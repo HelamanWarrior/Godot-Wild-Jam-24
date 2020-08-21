@@ -22,6 +22,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Global="*res://Scripts/Singletons/Global.gd"
+Sound_manager="*res://Scripts/Singletons/Sound_manager.gd"
 
 [debug]
 

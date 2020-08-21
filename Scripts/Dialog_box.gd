@@ -42,6 +42,8 @@ func write_text(string: String) -> void:
 	visible = true
 	dialog.text = ""
 	for text in string:
+		if text != " ":
+			Sound_manager.play_sound("res://Sounds/Dialog_type.wav")
 		dialog.text += text
 		yield(get_tree().create_timer(0.05), "timeout")
 
@@ -54,5 +56,7 @@ func write_text_array(dialog_array: Array) -> void:
 	dialog_strings = dialog_array
 	
 	for text in dialog_strings[0]:
+		if text != " ":
+			Sound_manager.play_sound("res://Sounds/Dialog_type.wav")
 		dialog.text += text
 		yield(get_tree().create_timer(0.05), "timeout")

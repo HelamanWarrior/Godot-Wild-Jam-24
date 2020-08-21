@@ -9,7 +9,9 @@ extents = Vector2( 8, 8 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 13, 14 )
 
-[node name="Crate" type="KinematicBody2D"]
+[node name="Crate" type="KinematicBody2D" groups=[
+"Grab",
+]]
 z_index = -1
 collision_layer = 2147484672
 collision_mask = 1024
@@ -35,8 +37,13 @@ scale = Vector2( 0.8, 0.8 )
 [node name="Check_interact" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="Sound_timeout" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 [connection signal="area_entered" from="Pickup_area" to="." method="_on_Pickup_area_area_entered"]
 [connection signal="area_exited" from="Pickup_area" to="." method="_on_Pickup_area_area_exited"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Check_interact" to="." method="_on_Check_interact_timeout"]
+[connection signal="timeout" from="Sound_timeout" to="." method="_on_Sound_timeout_timeout"]

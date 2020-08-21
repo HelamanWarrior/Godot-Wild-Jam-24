@@ -126,6 +126,7 @@ tracks/4/keys = {
 }
 
 [node name="Coin" type="Sprite"]
+z_index = -1
 texture = ExtResource( 2 )
 hframes = 7
 script = ExtResource( 1 )

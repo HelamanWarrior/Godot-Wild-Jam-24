@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Enemy_hurt.wav-cfdfb4196d03079c84d6a0786123da88.sample"
+
+[deps]
+
+source_file="res://Sounds/Enemy_hurt.wav"
+dest_files=[ "res://.import/Enemy_hurt.wav-cfdfb4196d03079c84d6a0786123da88.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

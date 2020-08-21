@@ -10,7 +10,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if raycast.is_colliding():
-		sprite.frame = 1
+		
+		if sprite.frame == 0:
+			Sound_manager.play_sound("res://Sounds/Button_press.wav")
+			if Global.camera != null:
+				Global.camera.screen_shake(50)
+			sprite.frame = 1
 		is_pressed = true
 	else:
 		sprite.frame = 0

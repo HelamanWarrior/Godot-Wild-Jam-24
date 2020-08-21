@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Change_role.wav-e1476c99a273f8e472f4628aa3201ebe.sample"
+
+[deps]
+
+source_file="res://Sounds/Change_role.wav"
+dest_files=[ "res://.import/Change_role.wav-e1476c99a273f8e472f4628aa3201ebe.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

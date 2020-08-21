@@ -17,6 +17,9 @@ var just_hit_floor: bool = false
 
 var direction = directions.RIGHT
 
+var enemy_death: Object = load("res://Scenes/Enemy_death.tscn")
+var enemy_hurt: Object = load("res://Scenes/Enemy_hurt.tscn")
+
 onready var knockback_recovery: Timer = $Knockback_recovery
 onready var sprite: Sprite = $Sprite_pivot/Sprite
 onready var hit_flash_timer: Timer = $Hit_flash_timer
@@ -62,9 +65,6 @@ func _process(delta: float) -> void:
 	
 	if not is_knocked_back:
 		move_and_slide(velocity * speed, Vector2.UP)
-		
-		if current_health <= 0:
-			queue_free()
 	else:
 		move_and_slide(velocity * knockback_speed, Vector2.UP)
 		velocity.x = lerp(velocity.x, 0, delta * 4)
@@ -87,8 +87,18 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		
 		current_health -= area.damage
 		
+		Sound_manager.play_sound("res://Sounds/Enemy_hurt.wav")
+		
+		if Global.camera != null:
+			Global.camera.screen_shake(200)
+		
+		Global.instance_node_at_location(enemy_hurt, get_tree().current_scene, global_position)
+		
 		sprite.material.set_shader_param("whitening", 1)
 		hit_flash_timer.start()
+		
+		if current_health <= 0:
+			$Destroy_timer.start()
 		
 		is_knocked_back = true
 
@@ -104,3 +114,10 @@ func _on_VisibilityNotifier2D_screen_entered() -> void:
 func _on_VisibilityNotifier2D_screen_exited() -> void:
 	Global.freeze_node(self, true)
 
+func _on_Destroy_timer_timeout() -> void:
+	if Global.camera != null:
+		Global.camera.screen_shake(400)
+	
+	Global.instance_node_at_location(enemy_death, get_tree().current_scene, global_position)
+	Sound_manager.play_sound("res://Sounds/Enemy_death.wav")
+	queue_free()

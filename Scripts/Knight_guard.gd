@@ -9,6 +9,7 @@ var player_colliding_right: bool = false
 var player_colliding_left: bool = false
 
 var started_dialog: bool = false
+var played_dialog: bool = false
 
 onready var default_texture: Texture = sprite.texture
 var texture_select: Texture = load("res://Textures/Knight_guard_selected.png")
@@ -29,16 +30,18 @@ func _process(delta: float) -> void:
 		if is_player_colliding and Global.dialog_box != null:
 			if not Global.dialog_box.visible and Global.dialog_box.started_dialog == false:
 				if Input.is_action_just_pressed("interact"):
-					if player_colliding_right == true:
+					if player_colliding_right == true and not played_dialog:
 						Global.dialog_box.write_text_array(["You shall not pass!", "This area is dangerous"])
 					
-					if player_colliding_left == true:
+					if player_colliding_left == true and not played_dialog:
 						Global.dialog_box.write_text_array(["I guess you can pass", "You can go", "But beware this area is dangerous"])
+						played_dialog = true
 						started_dialog = true
 	
 	if Global.dialog_box != null:
 		if started_dialog and Global.dialog_box.visible == false:
 			modulate.a = lerp(modulate.a, 0, delta)
+			collision.disabled = true
 			
 			if modulate.a <= 0.005:
 				queue_free()

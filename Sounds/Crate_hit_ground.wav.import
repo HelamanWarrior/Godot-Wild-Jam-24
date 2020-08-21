@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Crate_hit_ground.wav-437d38697f11fd3f432f6b417ea15310.sample"
+
+[deps]
+
+source_file="res://Sounds/Crate_hit_ground.wav"
+dest_files=[ "res://.import/Crate_hit_ground.wav-437d38697f11fd3f432f6b417ea15310.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -22,6 +22,7 @@ const move_angle: int = 15
 const dash_speed: int = 200
 
 var attack_hitbox: Object = load("res://Scenes/Player_attack_hitbox.tscn")
+var player_death: Object = load("res://Scenes/Enemy_death.tscn")
 
 var direction = directions.RIGHT
 
@@ -43,13 +44,23 @@ onready var dash_reset_timer: Timer = $Dash_reset_timer
 
 func _ready() -> void:
 	Global.player = self
-	
+
+func update_role() -> void:
+	if Global.transition != null:
+		Global.transition.fade(false)
+	if Global.camera != null:
+		Global.camera.stop_smoothing()
 	current_role = Global.player_role
 	
 	if current_role == "mother":
 		jump_speed = 300
+		speed = 125
+	elif current_role == "father":
+		jump_speed = 200
+		speed = 125
 	elif current_role == "child":
 		speed = 175
+		jump_speed = 200
 	
 func _exit_tree() -> void:
 	Global.player = null
@@ -58,17 +69,22 @@ func _process(delta: float) -> void:
 	if Global.player != self:
 		Global.player = self
 	
-	if not is_knocked_back:
-		if not is_dashing:
-			get_input(delta)
-		apply_velocity_movement()
-	else:
-		apply_knocked_back_velocity(delta)
-	apply_gravity(delta)
-	camera_offset_in_direction(delta)
+	if Global.dialog_box.visible:
+		velocity = Vector2(0, 0)
 	
-	if current_role == "child":
-		check_dash(delta)
+	if visible:
+		if not is_knocked_back:
+			if not is_dashing:
+				if Global.dialog_box.visible == false:
+					get_input(delta)
+			apply_velocity_movement()
+		else:
+			apply_knocked_back_velocity(delta)
+		apply_gravity(delta)
+		camera_offset_in_direction(delta)
+		
+		if current_role == "child":
+			check_dash(delta)
 
 func apply_velocity_movement() -> void:
 	var applied_velocity := Vector2(velocity.x * speed, velocity.y)
@@ -81,6 +97,7 @@ func apply_knocked_back_velocity(delta: float) -> void:
 
 func check_dash(delta: float):
 	if can_dash and Input.is_action_just_pressed("attack"):
+		Sound_manager.play_sound("res://Sounds/Dash_sound.wav")
 		if direction == directions.RIGHT:
 			velocity.x = 4
 			
@@ -128,6 +145,7 @@ func get_input(delta: float) -> void:
 	
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity.y = -jump_speed
+		Sound_manager.play_sound("res://Sounds/Jump.wav")
 	
 	if Input.is_action_just_pressed("attack") and current_role == "father":
 		animation_player.play("father_attack")
@@ -137,6 +155,10 @@ func get_input(delta: float) -> void:
 			sprite.rotation_degrees = move_angle
 		else:
 			sprite.rotation_degrees = -move_angle
+
+func play_swing_sound() -> void:
+#	Sound_manager.play_sound("res://Sounds/Sword_swing.wav")
+	pass
 
 func camera_offset_in_direction(delta: float) -> void:
 	if Global.camera != null:
@@ -158,7 +180,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		is_attacking = false
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Enemy") and not is_knocked_back and not area.get_parent().is_knocked_back:
+	if area.is_in_group("Enemy") and not is_knocked_back and not area.get_parent().is_knocked_back and visible:
 		current_health -= 1
 		
 		sprite.material.set_shader_param("whitening", 1)
@@ -169,8 +191,20 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		is_knocked_back = true
 		
 		if current_health <= 0:
+			Sound_manager.play_sound("res://Sounds/Player_death.wav")
+			visible = false
+			Global.instance_node_at_location(player_death, get_tree().current_scene, global_position)
+			
+			if Global.transition != null:
+				Global.transition.fade(true)
+			
+			yield(get_tree().create_timer(0.8), "timeout")
+			
 			Global.is_game_over = true
-			queue_free()
+		else:
+			if Global.camera != null:
+				Global.camera.screen_shake(200)
+			Sound_manager.play_sound("res://Sounds/Player_hit.wav")
 		
 		if global_position.x > area.global_position.x:
 			velocity.x = 1

@@ -19,10 +19,12 @@ func _process(_delta: float) -> void:
 			animation_player.play("Open_door")
 			collision_shape.disabled = true
 			has_opened_door = true
+			Sound_manager.play_sound("res://Sounds/Door_open.wav")
 		elif not button.is_pressed and has_opened_door and not stay_opened:
 			animation_player.play_backwards("Open_door")
 			collision_shape.disabled = false
 			has_opened_door = false
+			Sound_manager.play_sound("res://Sounds/Door_open.wav")
 
 func _on_VisibilityNotifier2D_screen_entered() -> void:
 	Global.freeze_node(self, false)

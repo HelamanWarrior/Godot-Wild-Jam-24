@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Little_monster.gd" type="Script" id=2]
@@ -22,8 +22,13 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/whitening = 0.0
 
-[sub_resource type="Animation" id=3]
-resource_name = "Little_monster_attack"
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7, 9 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 6, 8 )
+
+[sub_resource type="Animation" id=5]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite_pivot/Sprite:texture")
@@ -67,7 +72,6 @@ script = ExtResource( 2 )
 health = 2
 speed = 100
 knockback_speed = 300
-knockback_recovery_time = 0.5
 idle_animation = ExtResource( 4 )
 walk_animation = ExtResource( 3 )
 
@@ -79,12 +83,14 @@ frame = 2
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 1, -9 )
+shape = SubResource( 3 )
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 1, -9 )
+shape = SubResource( 4 )
 
 [node name="AnimationPlayer" parent="." index="5"]
-anims/Little_monster_attack = SubResource( 3 )
+anims/Little_monster_attack = SubResource( 5 )
 anims/Little_monster_idle = ExtResource( 4 )
 anims/Little_monster_run = ExtResource( 3 )
 
