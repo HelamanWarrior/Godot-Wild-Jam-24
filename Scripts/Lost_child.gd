@@ -25,6 +25,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not is_disabled:
 		if Input.is_action_just_pressed("interact") and is_player_colliding:
+			Sound_manager.play_sound("res://Sounds/Pickup_child.wav")
 			can_interact = false
 			check_interact.start()
 			follow_player = true
@@ -40,6 +41,7 @@ func _process(delta: float) -> void:
 			
 			if Input.is_action_just_pressed("interact"):
 				if can_interact:
+					Sound_manager.play_sound("res://Sounds/Drop_child.wav")
 					follow_player = false
 		else:
 			collision_shape.disabled = false

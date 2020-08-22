@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Textures/Play_button.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Title_screen.gd" type="Script" id=2]
+[ext_resource path="res://Textures/Title_raw_1.png" type="Texture" id=3]
+[ext_resource path="res://Textures/Dirt_pattern.png" type="Texture" id=4]
+[ext_resource path="res://Textures/Play_button_pressed.png" type="Texture" id=5]
+[ext_resource path="res://Textures/Godot_wild_jam_text.png" type="Texture" id=6]
+[ext_resource path="res://Textures/Title_raw_2.png" type="Texture" id=7]
+[ext_resource path="res://Textures/Title_raw_3.png" type="Texture" id=8]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float whitening;
+
+void fragment() {
+    vec4 texture_color = texture(TEXTURE, UV);
+    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening), texture_color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/whitening = 1.0
+
+[node name="Title_screen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title_1" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -78.5
+margin_right = 78.5
+margin_bottom = 125.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title_2" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -78.5
+margin_right = 78.5
+margin_bottom = 125.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title_3" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -78.5
+margin_right = 78.5
+margin_bottom = 125.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play_button" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -50.0
+margin_right = 40.0
+margin_bottom = -18.0
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource( 2 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -68.0
+margin_right = 96.0
+margin_bottom = 8.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Play_button" to="." method="_on_Play_button_pressed"]

@@ -10,7 +10,7 @@ var lost_child_1_found: bool = false
 var lost_child_2_found: bool = false
 var bought_dimensional_portal: bool = false
 
-var total_coins: int = 20
+var total_coins: int = 0
 
 var camera: Camera2D = null
 var time_cycle_color: CanvasModulate = null

@@ -11,7 +11,7 @@ func _process(_delta: float) -> void:
 		get_tree().paused = true
 	elif not Global.is_role_select and visible:
 		hide()
-		if Global.time_hours >= 10 and Global.is_afternoon:
+		if Global.raw_time_hours >= 22:
 			Global.reset_time()
 		for child in get_tree().current_scene.get_children():
 			if child.is_in_group("Grab"):

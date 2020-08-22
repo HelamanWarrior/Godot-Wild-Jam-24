@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 			
 			if Input.is_action_just_pressed("interact"):
 				if can_interact:
+					Sound_manager.play_sound("res://Sounds/Crate_drop.wav")
 					follow_player = false
 		else:
 			collision_shape.disabled = false

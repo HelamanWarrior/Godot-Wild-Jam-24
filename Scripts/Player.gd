@@ -157,8 +157,7 @@ func get_input(delta: float) -> void:
 			sprite.rotation_degrees = -move_angle
 
 func play_swing_sound() -> void:
-#	Sound_manager.play_sound("res://Sounds/Sword_swing.wav")
-	pass
+	Sound_manager.play_sound("res://Sounds/Sword_swing.wav")
 
 func camera_offset_in_direction(delta: float) -> void:
 	if Global.camera != null:
